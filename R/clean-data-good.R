@@ -6,7 +6,7 @@ nlsy_cols <- c("glasses", "eyesight", "sleep_wkdy", "sleep_wknd",
 							 "income", "res_1980", "res_2002", "age_bir")
 
 # read in raw data, replacing missing values with NA
-nlsy <- read_csv(here::here("data", "raw", "nlsy.csv"),
+nlsy <- read_csv(here::here("Data", "Raw", "nlsy.txt"),
 				 na = c("-1", "-2", "-3", "-4", "-5", "-998"),
 				 skip = 1, col_names = nlsy_cols)
 
