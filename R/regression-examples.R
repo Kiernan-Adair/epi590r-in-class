@@ -143,7 +143,61 @@ tbl_uvregression(
 	method = lm
 )
 
+# 4. Fit a Poisson regression (family = poisson()) for the number of siblings, using at least 3
+# predictors of your choice.
+poisson_model <- glm(nsibs ~ eyesight_cat + sex_cat + income,
+										 data = nlsy, family = poisson()
+)
 
+tbl_regression(
+	poisson_model,
+	exponentiate = TRUE,
+	label = list(
+		sex_cat ~ "Sex",
+		eyesight_cat ~ "Eyesight",
+		income ~ "Income"
+	)
+)
+
+# 5. Instead of odds ratios for wearing glasses, as in the example in the slides., we want risk ratios.
+# We can do this by specifying in the regression family = binomial(link = "log"). Regress glasses on
+# eyesight_cat and sex_cat and create a table showing the risk ratios and confidence intervals from
+# this regression.
+log_model <- glm(glasses ~ eyesight_cat + sex_cat,
+								 data = nlsy, family = binomial(link = "log")
+)
+
+# Table
+tbl_regression(
+	log_model,
+	exponentiate = TRUE,
+	label = list(
+		sex_cat ~ "Sex",
+		eyesight_cat ~ "Eyesight"
+	)
+)
+
+# Combined Table
+logistic_table <- tbl_regression(
+	log_model,
+	exponentiate = TRUE,
+	label = list(
+		sex_cat ~ "Sex",
+		eyesight_cat ~ "Eyesight"
+	)
+)
+
+log_table <- tbl_regression(
+	log_model,
+	exponentiate = TRUE,
+	label = list(
+		sex_cat ~ "Sex",
+		eyesight_cat ~ "Eyesight"
+	)
+)
+
+tbl_merge(list(logistic_table, log_table),
+					tab_spanner = c("**Logistic regression**", "**Log-linear regression**")
 )
 
 
