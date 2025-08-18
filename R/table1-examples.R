@@ -7,7 +7,7 @@ nlsy_cols <- c(
   "id", "nsibs", "samp", "race_eth", "sex", "region",
   "income", "res_1980", "res_2002", "age_bir"
 )
-nlsy <- read_csv(here::here("data", "raw", "nlsy.csv"),
+nlsy <- read_csv(here::here("Data", "Raw", "nlsy.csv"),
   na = c("-1", "-2", "-3", "-4", "-5", "-998"),
   skip = 1, col_names = nlsy_cols
 ) |>
@@ -76,5 +76,33 @@ tbl_summary(
   modify_footnote(update = everything() ~ NA) |>
   # replace the column headers and make them bold
   modify_header(label = "**Variable**", p.value = "**P**")
+
+
+#practice table
+tbl_summary(
+	nlsy,
+	by = sex_cat,
+	include = c(income, region_cat, race_eth_cat, sleep_wkdy),
+	label = list(
+		region_cat ~ "Region",
+		race_eth_cat ~ "Race/Ethnicity",
+		sleep_wkdy ~ "Sleep Weekday"
+	),
+statistic = list(
+	income ~ "{p10} to {p90}",
+	starts_with("sleep") ~ "min = {min}; max {max}"),
+	digits = list(
+		income ~ c(3,3),
+		starts_with("sleep") ~ c(1,1)
+	))|>
+	add_p(test = list(
+		all_continuous() ~ "t.test",
+		all_categorical() ~ "chisq.test"
+	))|>
+	modify_table_styling(
+		columns = label,
+		rows = label == "Race/ethnicity",
+		footnote = "see https://www.nlsinfo.org/content/cohorts/nlsy79/topical-guide/household/race-ethnicity-immigration-data")
+
 
 
