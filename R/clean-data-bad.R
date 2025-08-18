@@ -2,6 +2,9 @@ nlsy_cols <- c("glasses", "eyesight", "sleep_wkdy", "sleep_wknd",
 							 "id", "nsibs", "samp", "race_eth", "sex", "region",
 							 "income", "res_1980", "res_2002", "age_bir")
 
+#install.packages("here")
+library(here)
+
 library(tidyverse)
 setwd("~/Documents/Teaching/Emory/epi590r-inclass/data/raw/")
 nlsy <- read_csv("nlsy.csv",
