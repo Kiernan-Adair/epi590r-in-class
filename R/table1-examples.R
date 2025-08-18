@@ -99,6 +99,7 @@ statistic = list(
 		all_continuous() ~ "t.test",
 		all_categorical() ~ "chisq.test"
 	))|>
+	add_overall(col_label = "**Total**") |>
 	modify_table_styling(
 		columns = label,
 		rows = label == "Race/ethnicity",

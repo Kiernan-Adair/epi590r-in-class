@@ -132,3 +132,18 @@ tbl_merge(list(tbl_no_int, tbl_int),
 )
 
 
+#Regression Practice:
+
+
+# regression of income on a series of predictor (x) variables
+tbl_uvregression(
+	nlsy,
+	x = sex_cat,
+	include = c(sleep_wkdy, sleep_wknd, income, nsibs),
+	method = lm
+)
+
+
+)
+
+
