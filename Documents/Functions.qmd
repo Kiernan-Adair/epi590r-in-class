@@ -20,6 +20,7 @@ x <- c(1, 3, 5, 7, 9)
 new_mean(x)
 mean(x)
 ```
+
 ```{r}
 square <- function(x) {
 	squared_value <- x^2
@@ -28,5 +29,75 @@ square <- function(x) {
 
 square(4)
 square(36)
+```
+
+```{r}
+add_two_numbers <- function(x, y) {
+	addition <- x + y
+	return(addition)
+}
+
+add_two_numbers(4, 6)
+add_two_numbers(c(4, 6),7)
+
+x <- c(1,3,5,7,9)
+add_two_numbers(x, 6)
+```
+
+```{r}
+raise <- function(x, power=2) {
+	raised <- x^power
+	return(raised)
+}
+
+
+raise(x=2, power=4)
+raise(x=5)
+```
+
+```{r}
+sdv <- function(x, na.rm=TRUE) {
+	if (na.rm==TRUE) {
+		x <- na.omit(x)
+	}
+	n <- length(x)
+	if (length(x) <= 1)
+		{return(NA)
+		} else { 
+			ss <- sum(square(x - new_mean(x)))
+			standard_deviation <- (sqrt(ss / (n-1)))
+			return(standard_deviation)
+	}
+}
+
+sd(x)
+sdv(x)
+
+y<- 5
+sdv(y)
+
+```
+
+```{r}
+library(tidyverse)
+library(gtsummary)
+nlsy_cols <- c("glasses", "eyesight", "sleep_wkdy", "sleep_wknd", 
+               "id", "nsibs", "samp", "race_eth", "sex", "region", 
+               "income", "res_1980", "res_2002", "age_bir")
+nlsy <- read_csv(here::here("data", "raw", "nlsy.csv"), 
+                 na = c("-1", "-2", "-3", "-4", "-5", "-998"),
+                 skip = 1, col_names = nlsy_cols) |> 
+  mutate(region_cat = factor(region, labels = c("Northeast", "North Central", "South", "West")),
+         sex_cat = factor(sex, labels = c("Male", "Female")),
+         race_eth_cat = factor(race_eth, labels = c("Hispanic", "Black", "Non-Black, Non-Hispanic")),
+         eyesight_cat = factor(eyesight, labels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
+         glasses_cat = factor(glasses, labels = c("No", "Yes")))
+```
+
+```{r}
+sd(nlsy$income, na.rm=TRUE)
+sd(nlsy$income)
+sdv(nlsy$income)
+
 ```
 
