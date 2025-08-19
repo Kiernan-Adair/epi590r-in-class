@@ -11,7 +11,7 @@ execute:
 The NLS, sponsored by the U.S. Bureau of Labor Statistics, are nationally representative surveys that follow the same sample of individuals from specific birth cohorts over time. The surveys collect data on labor market activity, schooling, fertility, program participation, health, and much more. Select a cohort below to explore detailed information.
 
 ```{r}
-#| message: false
+
 
 library(tidyverse)
 library(gtsummary)
@@ -30,15 +30,21 @@ nlsy <- read_csv(here::here("data", "raw", "nlsy.csv"),
 
 # Customization of `tbl_summary()`
 
+
+
 ```{r}
+#| label: tbl-one
+#| tbl-cap: descriptive statistics
 tbl_summary(
   nlsy,
   by = sex_cat,
   include = c(sex_cat, race_eth_cat, region_cat,
               eyesight_cat, glasses, age_bir))
 ```
+@tbl-one is stratified  by sex
 
 ```{r}
+#| eval: false
 tbl_summary(
   nlsy,
   by = sex_cat,
@@ -55,6 +61,7 @@ tbl_summary(
 ```
 
 ```{r}
+#| eval: false
 tbl_summary(
   nlsy,
   by = sex_cat,
@@ -62,3 +69,30 @@ tbl_summary(
               eyesight_cat, glasses, age_bir))
 ```
 
+```{r}
+
+wknd_sleep_mean <- mean(nlsy$sleep_wknd, na.rm=TRUE)
+wknd_sleep_med <- median(nlsy$sleep_wknd, na.rm=TRUE)
+```
+On average, people got `r wknd_sleep_mean` hours of sleep on weekend nights.
+The median number of hours of sleep people got on weekend nights was `r wknd_sleep_med`.
+
+## Part 2
+```{r}
+#| label: tbl-descr
+#| tbl-cap: "Descriptive statistics"
+#| output-location: slide
+table1 <- tbl_summary(
+  nlsy,
+  by = sex_cat,
+  include = c(sex_cat, race_eth_cat, region_cat,
+              eyesight_cat, glasses, age_bir, sleep_wknd)) |> 
+  add_overall(last = TRUE)
+table1
+
+
+wknd_sleep_inline <- inline_text(table1, variable= "sleep_wknd", column="stat_0",
+						pattern="{median}")
+```
+
+The median number of hours of sleep people got on weekend night was `r wknd_sleep_inline`.
